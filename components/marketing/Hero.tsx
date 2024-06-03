@@ -14,9 +14,13 @@ const Hero = () => {
         </span>
 
         <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-0 sm:gap-x-4">
-          <Button variant={"default"} size={"lg"}>
+          <Button
+            className="flex items-center gap-4"
+            variant={"default"}
+            size={"lg"}
+          >
             <svg
-              className="h-[30px] text-white"
+              className="h-[20px] text-white"
               stroke="currentColor"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 64 64"

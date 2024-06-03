@@ -4,17 +4,15 @@ import { ArrowRight } from "lucide-react";
 
 const SidePicStuff = () => {
   return (
-    <div className=" w-full h-[50vh] flex items-center">
-      <div className=" w-1/2 flex items-center  justify-center bg-red-200 h-full">
+    <div className=" w-full border-t border-black/20 h-[50vh] flex items-center">
+      <div className=" w-1/2 flex items-center  justify-center  h-full">
         <div className=" max-w-md">
-          <div className=" font-semibold text-4xl">
-            Lorem ipsum dolor sit amet.
-          </div>
-          <div className=" font-thin text-sm">
+          <div className=" font-bold text-4xl">Lorem ipsum dolor sit amet.</div>
+          <div className=" font-thin text-sm mt-2">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem,
             placeat. Nihil, minima!
           </div>
-          <div>
+          <div className="mt-4">
             <Button>
               <div className="flex items-center gap-2">
                 <div>Start Now</div>
