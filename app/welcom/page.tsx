@@ -4,14 +4,17 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogHeader,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useUser } from "@clerk/nextjs";
 import { Plus, X } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
+import supabase from "../supabase/supabaseClient";
+import { useEdgeStore } from "@/lib/edgestore";
+import { SingleImageDropzone } from "@/components/requirements/single-drop-comp";
+import Link from "next/link";
 
 export default function page() {
   const user = useUser();
@@ -44,66 +47,31 @@ export default function page() {
 }
 
 const MyForm = () => {
-  const user = useUser();
+  const { edgestore } = useEdgeStore();
+
+  const [progress, setProgress] = useState(null);
+  const [url, setUrl] = useState(null);
+
+  const handleUpload = async (file: any) => {
+    const res: any = await edgestore.publicFiles.upload({
+      file,
+    });
+    setUrl(res.url);
+  };
   return (
     <div>
-      <div>
-        <div className="font-bold text-center">Add new house</div>
-        <div className="bg-black/20 h-px my-5"></div>
-        <div>
-          <form action="">
-            <div>
-              <Label>Your Full Name</Label>
-
-              <Input
-                className="mt-2"
-                disabled
-                //@ts-ignore
-                value={user.user?.fullName}
-              />
-            </div>
-            <div className="mt-4">
-              <Label>Your email Adress</Label>
-              <Input
-                className="mt-2"
-                disabled
-                placeholder="Adress"
-                //@ts-ignore
-                value={user.user?.emailAddresses[0]}
-              />
-            </div>
-            <div className="mt-4">
-              <Label>Your House Adress</Label>
-              <Input
-                className="mt-2"
-                placeholder="Adress"
-                //@ts-ignore
-              />
-            </div>
-            <div className="mt-4">
-              <Label>Your House pics</Label>
-              <Input
-                type="file"
-                className="mt-2 "
-                placeholder="Adress"
-                //@ts-ignore
-              />
-            </div>
-            <div className="mt-5 flex items-center gap-2">
-              <Button className="flex items-center gap-2">
-                Add House <Plus size={15} />
-              </Button>
-              <DialogClose asChild>
-                <Button
-                  className="flex items-center gap-2"
-                  variant={"secondary"}
-                >
-                  Close <X size={15} />
-                </Button>
-              </DialogClose>
-            </div>
-          </form>
-        </div>
+      <input
+        type="file"
+        onChange={(e: any) => handleUpload(e.target.files[0])}
+      />
+      <button>Upload</button>
+      <div className="mt-10">
+        {progress !== null && <div>Progress: {progress}%</div>}
+        {url && (
+          <div>
+            URL: <Link href={url}>{url}</Link>
+          </div>
+        )}
       </div>
     </div>
   );
