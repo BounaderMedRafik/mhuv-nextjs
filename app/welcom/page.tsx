@@ -12,29 +12,22 @@ import { useUser } from "@clerk/nextjs";
 import { Plus, X } from "lucide-react";
 import React, { useState } from "react";
 import supabase from "../supabase/supabaseClient";
-import { useEdgeStore } from "@/lib/edgestore";
-import { SingleImageDropzone } from "@/components/requirements/single-drop-comp";
 import Link from "next/link";
+import { SingleImageDropzone } from "@/components/ui/EdgeStoreComponent";
+import { useEdgeStore } from "@/lib/edgestore";
 
 export default function page() {
   const user = useUser();
   return (
     <div>
-      <div className="wrapper p-10 flex flex-col justify-center items-center">
-        <div className="text-5xl font-semibold">
-          Hello{" "}
-          <span className="font-black text-blue-500">
-            {user.user?.fullName}
-          </span>
-        </div>
-        <div className="text-sm max-w-md text-center mt-3">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione
-          atque veritatis reiciendis eius a laborum!
+      <div className="wrapper p-10 py-32 flex flex-col justify-center items-center">
+        <div className="text-5xl font-black max-w-md text-center mt-3">
+          ادخل معلومات المنزل او العقار المرجو ترويجه
         </div>
         <div className="mt-5">
           <Dialog>
             <DialogTrigger asChild>
-              <Button>Add New House!</Button>
+              <Button>ادخال</Button>
             </DialogTrigger>
             <DialogContent>
               <MyForm />
@@ -42,36 +35,81 @@ export default function page() {
           </Dialog>
         </div>
       </div>
+      <div>
+        <img src="/photo6.png" />
+      </div>
     </div>
   );
 }
 
 const MyForm = () => {
+  const user = useUser();
+  const [name, setName] = useState(user.user?.fullName);
+  const [email, setEmail] = useState(user.user?.emailAddresses[0]);
+  const [location, setLocation] = useState("");
+  const [file, setFile] = useState<File>();
   const { edgestore } = useEdgeStore();
+  const [formerr, setForerr] = useState(false);
 
-  const [progress, setProgress] = useState(null);
-  const [url, setUrl] = useState(null);
-
-  const handleUpload = async (file: any) => {
-    const res: any = await edgestore.publicFiles.upload({
-      file,
-    });
-    setUrl(res.url);
-  };
   return (
     <div>
-      <input
-        type="file"
-        onChange={(e: any) => handleUpload(e.target.files[0])}
-      />
-      <button>Upload</button>
-      <div className="mt-10">
-        {progress !== null && <div>Progress: {progress}%</div>}
-        {url && (
-          <div>
-            URL: <Link href={url}>{url}</Link>
-          </div>
-        )}
+      <div>
+        <div className="text-2xl font-black text-center">
+          ادخال عقار او منزل
+        </div>
+        <div className=" w-full h-px bg-black/20 my-5 "></div>
+      </div>
+      <div>
+        <div>
+          <Label className="">منطقة العقار</Label>
+          <Input
+            className="mt-2"
+            type="text"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+          />
+        </div>
+        <div className="my-10">
+          <Label>صور العقار</Label>
+          <SingleImageDropzone
+            className="mt-2"
+            width={200}
+            height={200}
+            value={file}
+            onChange={(file) => {
+              setFile(file);
+            }}
+          />
+        </div>
+        <Button
+          onClick={async () => {
+            if (file) {
+              const res = await edgestore.publicFiles.upload({
+                file,
+              });
+              console.log(res);
+              if (
+                !user.user?.fullName ||
+                !user.user?.emailAddresses[0] ||
+                !location
+              ) {
+                setForerr(true);
+                return;
+              }
+
+              const { data, error } = await supabase.from("houses").insert([
+                {
+                  name,
+                  email,
+                  location,
+                  picture: res.url,
+                },
+              ]);
+            }
+          }}
+        >
+          clickme!
+        </Button>
       </div>
     </div>
   );

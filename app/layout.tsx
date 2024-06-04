@@ -20,15 +20,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <ClerkProvider>
-        <body className={inter.className}>
-          <div>
-            <Navbar />
-          </div>
-          <EdgeStoreProvider>{children}</EdgeStoreProvider>
-          <div>
-            <Footer />
-          </div>
-        </body>
+        <EdgeStoreProvider>
+          <body className={inter.className}>
+            <div>
+              <Navbar />
+            </div>
+            {children}
+          </body>
+        </EdgeStoreProvider>
       </ClerkProvider>
     </html>
   );
