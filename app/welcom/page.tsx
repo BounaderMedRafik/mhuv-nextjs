@@ -15,6 +15,7 @@ import supabase from "../supabase/supabaseClient";
 import Link from "next/link";
 import { SingleImageDropzone } from "@/components/ui/EdgeStoreComponent";
 import { useEdgeStore } from "@/lib/edgestore";
+import { toast } from "@/components/ui/use-toast";
 
 export default function page() {
   const user = useUser();
@@ -46,6 +47,7 @@ const MyForm = () => {
   const user = useUser();
   const [name, setName] = useState(user.user?.fullName);
   const [email, setEmail] = useState(user.user?.emailAddresses[0]);
+  const [phoneNum, setPhoneNum] = useState("");
   const [location, setLocation] = useState("");
   const [file, setFile] = useState<File>();
   const { edgestore } = useEdgeStore();
@@ -61,6 +63,16 @@ const MyForm = () => {
       </div>
       <div>
         <div>
+          <Label className="">رقم الهاتف</Label>
+          <Input
+            className="mt-2"
+            type="text"
+            placeholder="+213 0659 15 23 15 "
+            value={phoneNum}
+            onChange={(e) => setPhoneNum(e.target.value)}
+          />
+        </div>
+        <div className="mt-10">
           <Label className="">منطقة العقار</Label>
           <Input
             className="mt-2"
@@ -102,12 +114,16 @@ const MyForm = () => {
                 email: user.user.emailAddresses[0].emailAddress,
                 location: location,
                 picture: res.url,
+                phone: phoneNum,
               });
 
               if (error) {
                 console.error(error);
-              } else {
-                console.log(data);
+              }
+              if (data) {
+                toast({
+                  title: "تم إضافة العقار بنجاح",
+                });
               }
             }
           }}

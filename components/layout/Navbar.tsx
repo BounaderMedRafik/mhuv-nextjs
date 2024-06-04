@@ -9,13 +9,14 @@ import {
   useUser,
 } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
+import { Badge } from "../ui/badge";
+import { buttonVariants } from "../ui/button";
+
+const adimnEmail = "rafikbn666@gmail.com";
 
 const Navbar = () => {
-  const router = useRouter();
   const user = useUser();
-  if (user.isSignedIn) {
-    router.push("/welcom");
-  }
+
   return (
     <div className=" border-b border-black/20">
       <div className="wrapper  py-8 flex items-center justify-between">
@@ -25,23 +26,48 @@ const Navbar = () => {
             <img src="/logo.png" className="w-12" alt="" />
           </div>
         </a>
-        {user.isSignedIn ? (
-          <div className="p-3 flex items-center gap-3">
-            <div className="text-sm font-semibold">
-              <span className="font-black">{user.user?.fullName}</span> مرحبا بك
-              يا
-            </div>
-            <UserButton />
-          </div>
-        ) : (
-          <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
+          {
             <div>
-              <SignInButton mode="modal">
-                <Button>تسجيل دخول</Button>
-              </SignInButton>
+              {user.user?.emailAddresses[0].emailAddress == adimnEmail ? (
+                <div>
+                  <a
+                    className={buttonVariants({
+                      variant: "link",
+                    })}
+                    href="/dashboard"
+                  >
+                    Dashboard
+                  </a>
+                </div>
+              ) : null}
             </div>
+          }
+          <div>
+            {user.user?.emailAddresses[0].emailAddress == adimnEmail ? (
+              <Badge variant={"green"}>Admin</Badge>
+            ) : null}
           </div>
-        )}
+          <div>
+            {user.isSignedIn ? (
+              <div className="p-3 flex items-center gap-3">
+                <div className="text-sm font-semibold">
+                  <span className="font-black">{user.user?.fullName}</span>{" "}
+                  مرحبا بك يا
+                </div>
+                <UserButton />
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <div>
+                  <SignInButton mode="modal">
+                    <Button>تسجيل دخول</Button>
+                  </SignInButton>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
