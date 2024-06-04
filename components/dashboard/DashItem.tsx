@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "../ui/button";
 
 const DashItem = ({
   pic,
@@ -30,6 +31,10 @@ const DashItem = ({
           </div>
           <div className="font-black text-2xl ">
             الهاتف : <span className="text-green-500">{phone}</span>
+          </div>
+          <div className="flex gap-2 mt-5 items-center justify-end">
+            <Button variant={"green"}>Accept</Button>
+            <Button variant={"destructive"}>Decline</Button>
           </div>
         </div>
       </div>
