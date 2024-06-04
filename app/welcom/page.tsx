@@ -87,7 +87,7 @@ const MyForm = () => {
               const res = await edgestore.publicFiles.upload({
                 file,
               });
-              console.log(res);
+              console.log(res.url);
               if (
                 !user.user?.fullName ||
                 !user.user?.emailAddresses[0] ||
@@ -97,14 +97,18 @@ const MyForm = () => {
                 return;
               }
 
-              const { data, error } = await supabase.from("houses").insert([
-                {
-                  name,
-                  email,
-                  location,
-                  picture: res.url,
-                },
-              ]);
+              const { data, error } = await supabase.from("houses").insert({
+                fullname: user.user.fullName,
+                email: user.user.emailAddresses[0].emailAddress,
+                location: location,
+                picture: res.url,
+              });
+
+              if (error) {
+                console.error(error);
+              } else {
+                console.log(data);
+              }
             }
           }}
         >
