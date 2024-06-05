@@ -8,7 +8,6 @@ import {
   UserButton,
   useUser,
 } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
 import { Badge } from "../ui/badge";
 import { buttonVariants } from "../ui/button";
 
@@ -27,6 +26,11 @@ const Navbar = () => {
           </div>
         </a>
         <div className="flex items-center gap-3">
+          <div>
+            <Button variant={"link"} size={"sm"}>
+              <a href="/properties">properties</a>
+            </Button>
+          </div>
           {
             <div>
               {user.user?.emailAddresses[0].emailAddress == adimnEmail ? (

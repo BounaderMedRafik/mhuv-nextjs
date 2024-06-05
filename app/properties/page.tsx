@@ -1,39 +1,41 @@
 "use client";
-import DashItem from "@/components/dashboard/DashItem";
-import React, { useEffect, useState } from "react";
 import { toast } from "@/components/ui/use-toast";
-import supabase from "@/app/supabase/supabaseClient";
+import { useUser } from "@clerk/nextjs";
+import React, { useEffect, useState } from "react";
+import supabase from "../supabase/supabaseClient";
+import DashItem from "@/components/dashboard/DashItem";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
-export default function Declinedpage() {
-  const [fetch, setFetch] = useState(null);
+export default function page() {
+  const { user } = useUser();
+
   const [houses, setHouses] = useState([{}]);
 
-  useEffect(() => {
-    const fetchHouses = async () => {
-      const { data, error } = await supabase
-        .from("houses")
-        .select()
-        .eq("status", "declined");
+  const fetchHouses = async () => {
+    const { data, error } = await supabase
+      .from("houses")
+      .select("*")
+      .eq("email", user?.primaryEmailAddress);
 
-      if (error) {
-        toast({
-          title: "Error",
-          description: error.message,
-        });
-        // console.log(error);
-      }
-      if (data) {
-        setHouses(data);
-        // console.log(data);
-      }
-    };
+    if (error) {
+      toast({
+        title: "Error",
+        description: error.message,
+      });
+      // console.log(error);
+    }
+    if (data) {
+      setHouses(data);
+      // console.log(data);
+    }
+  };
 
-    fetchHouses();
-  }, []);
+  fetchHouses();
   return (
     <div>
       <div className="wrapper py-10">
-        <div className="text-4xl font-black">Dashboard Declined Houses</div>
+        <div className="text-4xl font-black">Dashboard</div>
         <div className=" mt-10">
           <div className="w-full  flex flex-col justify-center items-center gap-3">
             {houses.length > 0 ? (
