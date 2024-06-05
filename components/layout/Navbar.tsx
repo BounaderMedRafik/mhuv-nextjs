@@ -1,13 +1,7 @@
 "use client";
 import React from "react";
 import { Button } from "../ui/button";
-import {
-  SignIn,
-  SignInButton,
-  SignUpButton,
-  UserButton,
-  useUser,
-} from "@clerk/nextjs";
+import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
 import { Badge } from "../ui/badge";
 import { buttonVariants } from "../ui/button";
 
@@ -26,11 +20,6 @@ const Navbar = () => {
           </div>
         </a>
         <div className="flex items-center gap-3">
-          <div>
-            <Button variant={"link"} size={"sm"}>
-              <a href="/properties">properties</a>
-            </Button>
-          </div>
           {
             <div>
               {user.user?.emailAddresses[0].emailAddress == adimnEmail ? (
@@ -55,6 +44,11 @@ const Navbar = () => {
           <div>
             {user.isSignedIn ? (
               <div className="p-3 flex items-center gap-3">
+                <div>
+                  <Button variant={"link"} size={"sm"}>
+                    <a href="/properties">properties</a>
+                  </Button>
+                </div>
                 <div className="text-sm font-semibold">
                   <span className="font-black">{user.user?.fullName}</span>{" "}
                   مرحبا بك يا

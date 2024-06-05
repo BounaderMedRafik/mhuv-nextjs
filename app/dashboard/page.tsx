@@ -2,21 +2,21 @@
 import DashItem from "@/components/dashboard/DashItem";
 import React, { useEffect, useState } from "react";
 import supabase from "../supabase/supabaseClient";
-import { toast } from "@/components/ui/use-toast";
+import { toast, useToast } from "@/components/ui/use-toast";
 
 export default function page() {
+  const toast = useToast();
   const [fetch, setFetch] = useState(null);
   const [houses, setHouses] = useState([{}]);
 
   useEffect(() => {
     const fetchHouses = async () => {
-      const { data, error } = await supabase.from("houses").select();
+      const { data, error } = await supabase
+        .from("houses")
+        .select()
+        .eq("status", "waiting");
 
       if (error) {
-        toast({
-          title: "Error",
-          description: error.message,
-        });
         // console.log(error);
       }
       if (data) {
