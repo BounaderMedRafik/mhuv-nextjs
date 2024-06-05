@@ -49,7 +49,7 @@ const Navbar = () => {
           }
           <div>
             {user.user?.emailAddresses[0].emailAddress == adimnEmail ? (
-              <Badge variant={"green"}>Admin</Badge>
+              <Badge>Admin</Badge>
             ) : null}
           </div>
           <div>
