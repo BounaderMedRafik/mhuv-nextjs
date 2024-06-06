@@ -104,14 +104,19 @@ const DashItem = ({
           <Badge
             className={cn(
               " text-slate-50  bg-yellow-500",
+              //@ts-ignore
               house.status == "accepted"
                 ? "bg-green-500"
-                : house.status == "declined"
+                : //@ts-ignore
+                house.status == "declined"
                 ? " bg-red-500"
                 : null
             )}
           >
-            {house.status}
+            {
+              //@ts-ignore
+              house.status
+            }
           </Badge>
         </div>
       </div>

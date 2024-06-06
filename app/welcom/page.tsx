@@ -10,12 +10,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useUser } from "@clerk/nextjs";
 import { Plus, X } from "lucide-react";
+import { FileUploaderRegular } from "@uploadcare/react-uploader";
 import React, { useState } from "react";
 import supabase from "../supabase/supabaseClient";
 import Link from "next/link";
 import { SingleImageDropzone } from "@/components/ui/EdgeStoreComponent";
 import { useEdgeStore } from "@/lib/edgestore";
 import { toast } from "@/components/ui/use-toast";
+import "@uploadcare/react-uploader/core.css";
 
 export default function page() {
   const user = useUser();
@@ -62,11 +64,29 @@ const MyForm = () => {
         <div className=" w-full h-px bg-black/20 my-5 "></div>
       </div>
       <div>
-        <div>
-          <Label className="">رقم الهاتف</Label>
+        <div className="mt-5">
+          <Label className="">الاسم و اللقب</Label>
           <Input
             className="mt-2"
             type="text"
+            //@ts-ignore
+            value={name}
+            disabled
+          />
+        </div>
+        <div className="mt-5">
+          <Label className="">رقم التعريف الوطني</Label>
+          <Input
+            className="mt-2"
+            type="number"
+            //@ts-ignore
+          />
+        </div>
+        <div className="mt-5">
+          <Label className="">رقم الهاتف</Label>
+          <Input
+            className="mt-2"
+            type="number"
             placeholder="+213 0659 15 23 15 "
             value={phoneNum}
             onChange={(e) => setPhoneNum(e.target.value)}
@@ -92,6 +112,10 @@ const MyForm = () => {
               setFile(file);
             }}
           />
+        </div>
+        <div className="my-10">
+          <Label>pdf file</Label>
+          <PDFuploader />
         </div>
         <Button
           onClick={async () => {
@@ -131,6 +155,18 @@ const MyForm = () => {
           clickme!
         </Button>
       </div>
+    </div>
+  );
+};
+
+const PDFuploader = () => {
+  return (
+    <div>
+      <FileUploaderRegular
+        pubkey="7e8f36d384cd7400a09b"
+        maxLocalFileSizeBytes={10000000}
+        sourceList="local, url, camera, dropbox"
+      />
     </div>
   );
 };

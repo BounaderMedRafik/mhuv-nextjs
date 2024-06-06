@@ -5,7 +5,7 @@ import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
 import { Badge } from "../ui/badge";
 import { buttonVariants } from "../ui/button";
 
-const adimnEmail = "rafikbn666@gmail.com";
+const adimnEmail = "daniabougradja54@gmail.com";
 
 const Navbar = () => {
   const user = useUser();

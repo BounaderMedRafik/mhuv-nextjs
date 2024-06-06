@@ -17,6 +17,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-toast": "^1.1.5",
     "@supabase/supabase-js": "^2.43.4",
+    "@uploadcare/react-uploader": "^0.5.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.383.0",
