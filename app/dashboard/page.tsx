@@ -2,7 +2,7 @@
 import DashItem from "@/components/dashboard/DashItem";
 import React, { useEffect, useState } from "react";
 import supabase from "../supabase/supabaseClient";
-import { toast, useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function page() {
   const toast = useToast();

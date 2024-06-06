@@ -92,10 +92,10 @@ const DashItem = ({
           {buttonsless ? null : (
             <div className="flex gap-2 mt-5 items-center justify-end">
               <Button variant={"green"} onClick={handleAccept}>
-                Accept
+                قبول
               </Button>
               <Button variant={"destructive"} onClick={handleReject}>
-                Decline
+                رفض
               </Button>
             </div>
           )}
